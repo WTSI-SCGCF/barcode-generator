@@ -1,8 +1,8 @@
-package io.swagger.api;
+package uk.ac.sanger.scgcf.barcodegenerator.api;
 
 import javax.xml.bind.annotation.XmlTransient;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-11-25T08:23:20.639Z")
+@javax.annotation.Generated(value = "class uk.ac.sanger.scgcf.barcodegenerator.codegen.languages.SpringCodegen", date = "2016-11-25T08:23:20.639Z")
 
 @javax.xml.bind.annotation.XmlRootElement
 public class ApiResponseMessage {

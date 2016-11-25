@@ -1,4 +1,4 @@
-package io.swagger.model;
+package uk.ac.sanger.scgcf.barcodegenerator.persistence.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * BarcodesPayload
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-11-25T08:23:20.639Z")
+@javax.annotation.Generated(value = "class uk.ac.sanger.scgcf.barcodegenerator.codegen.languages.SpringCodegen", date = "2016-11-25T08:23:20.639Z")
 
 public class BarcodesPayload   {
   @JsonProperty("numberOfBarcodes")

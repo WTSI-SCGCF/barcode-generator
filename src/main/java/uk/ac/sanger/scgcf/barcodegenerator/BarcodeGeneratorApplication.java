@@ -1,4 +1,4 @@
-package io.swagger;
+package uk.ac.sanger.scgcf.barcodegenerator;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.ExitCodeGenerator;
@@ -10,8 +10,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-@ComponentScan(basePackages = "io.swagger")
-public class Swagger2SpringBoot implements CommandLineRunner {
+@ComponentScan(basePackages = "uk.ac.sanger.scgcf.barcodegenerator")
+public class BarcodeGeneratorApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... arg0) throws Exception {
@@ -21,7 +21,7 @@ public class Swagger2SpringBoot implements CommandLineRunner {
 	}
 
 	public static void main(String[] args) throws Exception {
-		new SpringApplication(Swagger2SpringBoot.class).run(args);
+		new SpringApplication(BarcodeGeneratorApplication.class).run(args);
 	}
 
 	class ExitException extends RuntimeException implements ExitCodeGenerator {

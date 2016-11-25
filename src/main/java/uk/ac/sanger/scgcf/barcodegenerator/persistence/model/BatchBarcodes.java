@@ -1,14 +1,16 @@
-package io.swagger.model;
+package uk.ac.sanger.scgcf.barcodegenerator.persistence.model;
 
 import java.util.Objects;
-import io.swagger.model.BatchBarcodeElement;
+
+import uk.ac.sanger.scgcf.barcodegenerator.persistence.model.BatchBarcodeElement;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * BatchBarcodes
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-11-25T08:23:20.639Z")
+@javax.annotation.Generated(value = "class uk.ac.sanger.scgcf.barcodegenerator.codegen.languages.SpringCodegen", date = "2016-11-25T08:23:20.639Z")
 
 public class BatchBarcodes extends ArrayList<BatchBarcodeElement>  {
 

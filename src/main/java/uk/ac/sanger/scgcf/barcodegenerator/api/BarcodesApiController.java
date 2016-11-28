@@ -58,7 +58,6 @@ public class BarcodesApiController implements BarcodesApi {
     }
 
     public ResponseEntity<List<Barcode>> getBarcodesInfo(@ApiParam(value = "Size of barcode array") @RequestParam(value = "size", required = false) Integer size) {
-        // do some magic!
         List<Barcode> barcodes = this.barcodeRepository.findAll();
 
         barcodes.forEach( barcode -> {

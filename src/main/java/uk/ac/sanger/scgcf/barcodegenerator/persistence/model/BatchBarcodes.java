@@ -1,11 +1,7 @@
 package uk.ac.sanger.scgcf.barcodegenerator.persistence.model;
 
-import java.util.Objects;
-
-import uk.ac.sanger.scgcf.barcodegenerator.persistence.model.BatchBarcodeElement;
-
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 /**
  * BatchBarcodes
@@ -14,7 +10,9 @@ import java.util.List;
 
 public class BatchBarcodes extends ArrayList<BatchBarcodeElement>  {
 
-  @Override
+    private static final long serialVersionUID = 945438707879813832L;
+
+@Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;

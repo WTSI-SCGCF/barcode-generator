@@ -9,9 +9,9 @@ import uk.ac.sanger.scgcf.barcodegenerator.persistence.model.Barcode;
 
 /**
  * @author ke4
- *
+ *        
  */
 public interface BarcodeRepository extends JpaRepository<Barcode, Long> {
-
+    
     Barcode findByPrefix(String prefix);
 }

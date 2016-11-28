@@ -17,10 +17,10 @@ import io.swagger.annotations.ApiModelProperty;
 @javax.annotation.Generated(value = "class uk.ac.sanger.scgcf.barcodegenerator.codegen.languages.SpringCodegen", date = "2016-11-25T08:23:20.639Z")
 
 @Entity
-public class Barcode   {
-
+public class Barcode {
+    
     private static final String SEPARATOR_CHARACTER = "-";
-
+    
     @JsonProperty("id")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -45,6 +45,7 @@ public class Barcode   {
     
     /**
      * Get id
+     * 
      * @return id
      **/
     @ApiModelProperty(value = "")
@@ -63,6 +64,7 @@ public class Barcode   {
     
     /**
      * Get prefix
+     * 
      * @return prefix
      **/
     @ApiModelProperty(required = true, value = "")
@@ -81,6 +83,7 @@ public class Barcode   {
     
     /**
      * Get info
+     * 
      * @return info
      **/
     @ApiModelProperty(required = true, value = "")
@@ -99,6 +102,7 @@ public class Barcode   {
     
     /**
      * Get number
+     * 
      * @return number
      **/
     @ApiModelProperty(value = "")
@@ -109,12 +113,12 @@ public class Barcode   {
     public void setNumber(Long number) {
         this.number = number;
     }
-
+    
     public Barcode increaseNumberBy(Long numberOfBarcodes) {
         this.number += numberOfBarcodes;
         return this;
     }
-
+    
     public Barcode fullBarcode(String fullBarcode) {
         this.fullBarcode = fullBarcode;
         return this;
@@ -122,6 +126,7 @@ public class Barcode   {
     
     /**
      * Get fullBarcode
+     * 
      * @return fullBarcode
      **/
     @ApiModelProperty(value = "")
@@ -132,13 +137,9 @@ public class Barcode   {
     public void setFullBarcode() {
         String paddedNumber = String.format("%08d", number);
         StringBuilder builder = new StringBuilder(prefix);
-        this.fullBarcode = builder.append(SEPARATOR_CHARACTER)
-            .append(info)
-            .append(SEPARATOR_CHARACTER)
-            .append(paddedNumber)
-            .toString();
+        this.fullBarcode = builder.append(SEPARATOR_CHARACTER).append(info).append(SEPARATOR_CHARACTER)
+                .append(paddedNumber).toString();
     }
-    
     
     @Override
     public boolean equals(java.lang.Object o) {
@@ -149,11 +150,9 @@ public class Barcode   {
             return false;
         }
         Barcode barcode = (Barcode) o;
-        return Objects.equals(this.id, barcode.id) &&
-                Objects.equals(this.prefix, barcode.prefix) &&
-                Objects.equals(this.info, barcode.info) &&
-                Objects.equals(this.number, barcode.number) &&
-                Objects.equals(this.fullBarcode, barcode.fullBarcode);
+        return Objects.equals(this.id, barcode.id) && Objects.equals(this.prefix, barcode.prefix)
+                && Objects.equals(this.info, barcode.info) && Objects.equals(this.number, barcode.number)
+                && Objects.equals(this.fullBarcode, barcode.fullBarcode);
     }
     
     @Override
@@ -186,4 +185,3 @@ public class Barcode   {
         return o.toString().replace("\n", "\n    ");
     }
 }
-

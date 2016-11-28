@@ -1,4 +1,4 @@
-package uk.ac.sanger.scgcf.barcodegenerator.api;
+package uk.ac.sanger.scgcf.barcodegenerator.controller;
 
 import javax.xml.bind.annotation.XmlTransient;
 

@@ -1,4 +1,4 @@
-package uk.ac.sanger.scgcf.barcodegenerator.api;
+package uk.ac.sanger.scgcf.barcodegenerator.controller;
 
 @javax.annotation.Generated(value = "class uk.ac.sanger.scgcf.barcodegenerator.codegen.languages.SpringCodegen", date = "2016-11-25T08:23:20.639Z")
 

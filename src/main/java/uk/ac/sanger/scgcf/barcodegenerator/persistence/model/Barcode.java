@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -133,8 +135,14 @@ public class Barcode {
     public String getFullBarcode() {
         return fullBarcode;
     }
-    
+
+//    @PreUpdate
+//    @PrePersist
     public void setFullBarcode() {
+//        if (this.number == null) {
+//            this.number = 1L;
+//        }
+
         String paddedNumber = String.format("%08d", number);
         StringBuilder builder = new StringBuilder(prefix);
         this.fullBarcode = builder.append(SEPARATOR_CHARACTER).append(info).append(SEPARATOR_CHARACTER)

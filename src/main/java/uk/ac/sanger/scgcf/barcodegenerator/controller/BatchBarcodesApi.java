@@ -1,4 +1,4 @@
-package uk.ac.sanger.scgcf.barcodegenerator.api;
+package uk.ac.sanger.scgcf.barcodegenerator.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;

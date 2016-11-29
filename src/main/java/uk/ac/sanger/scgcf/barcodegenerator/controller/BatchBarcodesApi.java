@@ -25,7 +25,7 @@ public interface BatchBarcodesApi {
             @ApiResponse(code = 400, message = "Invalid parameter(s) supplied", response = BatchBarcodes.class) })
     @RequestMapping(value = "/batch_barcodes", produces = { "application/json" }, consumes = {
             "application/json" }, method = RequestMethod.POST)
-    ResponseEntity<BatchBarcodes> bartchCreateListOfBarcodes(
+    ResponseEntity<BatchBarcodes> batchCreateListOfBarcodes(
             @ApiParam(value = "Input parameters of the Barcode object(s) that needs to be created", required = true) @RequestBody BarcodesPayload body);
             
 }

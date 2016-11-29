@@ -1,11 +1,16 @@
 package uk.ac.sanger.scgcf.barcodegenerator.controller;
 
-import org.springframework.http.HttpStatus;
+import java.net.URI;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import io.swagger.annotations.ApiParam;
+import uk.ac.sanger.scgcf.barcodegenerator.persistence.dao.BarcodeRepository;
+import uk.ac.sanger.scgcf.barcodegenerator.persistence.model.Barcode;
 import uk.ac.sanger.scgcf.barcodegenerator.persistence.model.BarcodesPayload;
 import uk.ac.sanger.scgcf.barcodegenerator.persistence.model.BatchBarcodes;
 
@@ -13,11 +18,38 @@ import uk.ac.sanger.scgcf.barcodegenerator.persistence.model.BatchBarcodes;
 
 @Controller
 public class BatchBarcodesApiController implements BatchBarcodesApi {
+
+    private final BarcodeRepository barcodeRepository;
+
+    @Autowired
+    public BatchBarcodesApiController(BarcodeRepository barcodeRepository) {
+        this.barcodeRepository = barcodeRepository;
+    }
     
-    public ResponseEntity<BatchBarcodes> bartchCreateListOfBarcodes(
-            @ApiParam(value = "Input parameters of the Barcode object(s) that needs to be created", required = true) @RequestBody BarcodesPayload body) {
-        // do some magic!
-        return new ResponseEntity<BatchBarcodes>(HttpStatus.OK);
+    public ResponseEntity<BatchBarcodes> batchCreateListOfBarcodes(
+            @ApiParam(value = "Input parameters of the Barcode object(s) that needs to be created",
+                        required = true)
+            @RequestBody BarcodesPayload barcodesParam) {
+
+        int numberOfBarcodes = barcodesParam.getNumberOfBarcodes();
+        String prefix = barcodesParam.getPrefix();
+        String info = barcodesParam.getInfo();
+
+        BatchBarcodes barcodes = new BatchBarcodes();
+
+        for (int i = 0; i < numberOfBarcodes; i++) {
+            Barcode newBarcode = BarcodeCreator.create(prefix, info, barcodeRepository);
+            barcodes.add(new Barcode()
+                    .id(newBarcode.getId())
+                    .prefix(newBarcode.getPrefix())
+                    .info(newBarcode.getInfo())
+                    .number(newBarcode.getNumber())
+                    .fullBarcode(newBarcode.getFullBarcode())
+                    );
+        }
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .buildAndExpand(prefix).toUri();
+        return ResponseEntity.created(location).body(barcodes);
     }
     
 }

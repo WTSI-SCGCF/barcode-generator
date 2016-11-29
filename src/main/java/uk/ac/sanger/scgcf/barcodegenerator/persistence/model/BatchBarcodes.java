@@ -8,7 +8,7 @@ import java.util.Objects;
  */
 @javax.annotation.Generated(value = "class uk.ac.sanger.scgcf.barcodegenerator.codegen.languages.SpringCodegen", date = "2016-11-25T08:23:20.639Z")
 
-public class BatchBarcodes extends ArrayList<BatchBarcodeElement> {
+public class BatchBarcodes extends ArrayList<Barcode> {
     
     private static final long serialVersionUID = 945438707879813832L;
     

@@ -31,20 +31,12 @@ public class BarcodesApiController implements BarcodesApi {
     public ResponseEntity<Barcode> createSingleBarcode(
             @ApiParam(value = "Input parameters of the Barcode object that needs to be created", required = true) @RequestBody SingleBarcodePayload barcode) {
         String prefix = barcode.getPrefix();
-        Barcode latestBarcode = this.barcodeRepository.findByPrefix(prefix);
-        if (latestBarcode == null) {
-            latestBarcode = new Barcode()
-                    .prefix(prefix).info(barcode.getInfo()).number(1L);
-        } else {
-            latestBarcode.info(barcode.getInfo()).increaseNumberBy(1L);
-        }
-        latestBarcode.setFullBarcode();
 
-        this.barcodeRepository.flush();
-        latestBarcode = this.barcodeRepository.save(latestBarcode);
+        Barcode latestBarcode = 
+            BarcodeCreator.create(prefix, barcode.getInfo(), barcodeRepository);
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(latestBarcode.getPrefix()).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+            .buildAndExpand(prefix).toUri();
         return ResponseEntity.created(location).body(latestBarcode);
     }
 

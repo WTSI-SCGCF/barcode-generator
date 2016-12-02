@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>uk.ac.sanger.scgcf.barcodegenerator</groupId>
-  <artifactId>swagger-spring</artifactId>
+  <groupId>uk.ac.sanger.scgcf</groupId>
+  <artifactId>barcode-generator</artifactId>
   <packaging>jar</packaging>
-  <name>swagger-spring</name>
-  <version>1.0.0</version>
+  <name>barcode-generator</name>
+  <version>0.0.1-alpha</version>
   <properties>
     <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -23,6 +23,13 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+            <executable>true</executable>
+            <embeddedLaunchScriptProperties>
+                <logFolder>opt/atlassian/services/barcode-generator/log</logFolder>
+                <pidFolder>opt/atlassian/services/barcode-generator/log</pidFolder>
+            </embeddedLaunchScriptProperties>
+        </configuration>
         <executions>
           <execution>
             <goals>

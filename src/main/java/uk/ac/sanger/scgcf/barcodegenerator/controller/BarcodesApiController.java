@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import io.swagger.annotations.ApiParam;
+import uk.ac.sanger.scgcf.barcodegenerator.exceptions.InvalidBarcodeParameterException;
 import uk.ac.sanger.scgcf.barcodegenerator.persistence.dao.BarcodeRepository;
 import uk.ac.sanger.scgcf.barcodegenerator.persistence.model.Barcode;
 import uk.ac.sanger.scgcf.barcodegenerator.persistence.model.SingleBarcodePayload;
+import uk.ac.sanger.scgcf.barcodegenerator.validators.BarcodeCreationValidator;
 
 @javax.annotation.Generated(value = "class uk.ac.sanger.scgcf.barcodegenerator.codegen.languages.SpringCodegen", date = "2016-11-25T08:23:20.639Z")
 
@@ -29,21 +31,19 @@ public class BarcodesApiController implements BarcodesApi {
     }
 
     public ResponseEntity<Barcode> createSingleBarcode(
-            @ApiParam(value = "Input parameters of the Barcode object that needs to be created", required = true) @RequestBody SingleBarcodePayload barcode) {
-        String prefix = barcode.getPrefix();
+            @ApiParam(value = "Input parameters of the Barcode object that needs to be created", required = true) @RequestBody SingleBarcodePayload barcode) throws InvalidBarcodeParameterException {
+        final String prefix = barcode.getPrefix().toUpperCase();
+        final String info = barcode.getInfo();
+
+        BarcodeCreationValidator.validatePrefix(prefix);
+        BarcodeCreationValidator.validateInfo(info);
 
         Barcode latestBarcode = 
-            BarcodeCreator.create(prefix, barcode.getInfo(), barcodeRepository);
+            BarcodeCreator.create(prefix, info, barcodeRepository);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
             .buildAndExpand(prefix).toUri();
         return ResponseEntity.created(location).body(latestBarcode);
-    }
-
-    public ResponseEntity<Barcode> findBarcodeByPrefix(
-            @ApiParam(value = "Prefix to filter by") @RequestParam(value = "prefix", required = false) String prefix) {
-        // do some magic!
-        return new ResponseEntity<Barcode>(HttpStatus.OK);
     }
 
     public ResponseEntity<List<Barcode>> getBarcodesInfo(

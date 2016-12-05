@@ -18,6 +18,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,6 +27,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import uk.ac.sanger.scgcf.barcodegenerator.persistence.dao.BarcodeRepository;
 import uk.ac.sanger.scgcf.barcodegenerator.persistence.model.Barcode;
+import uk.ac.sanger.scgcf.barcodegenerator.persistence.model.Error;
+import uk.ac.sanger.scgcf.barcodegenerator.validators.BarcodeCreationValidator;
 
 /**
  * @author ke4
@@ -64,7 +67,100 @@ public class BarcodesApiControllerTest {
         .andDo(print())
         .andExpect(content().json(responseJson));
     }
-    
+
+    @Test
+    public void createBarcodeWithNotValidShortPrefix() throws Exception {
+        final String prefix = "a";
+        Barcode bc = BarcodesApiControllerTestData.buildBarcode(null, prefix, "XXX", null);
+        Error expectedError = new Error()
+                .code(HttpStatus.BAD_REQUEST.value())
+                .fields("prefix")
+                .message(BarcodeCreationValidator.INVALID_BARCODE_PREFIX_ERROR_MESSAGE);
+
+        String responseJson = BarcodesApiControllerTestData.buildErrorResponseJson(
+                expectedError);
+
+        
+        mockMvc.perform(post("/barcodes/")
+                .contentType(contentType)
+                .content(objectMapper.writeValueAsBytes(bc))
+                )
+        .andExpect(status().isBadRequest())
+        .andExpect(content().contentType(contentType))
+        .andDo(print())
+        .andExpect(content().json(responseJson));
+    }
+
+    @Test
+    public void createBarcodeWithNotAlphanumericPrefix() throws Exception {
+        final String prefix = "?£%&";
+        Barcode bc = BarcodesApiControllerTestData.buildBarcode(null, prefix, "XXX", null);
+        Error expectedError = new Error()
+                .code(HttpStatus.BAD_REQUEST.value())
+                .fields("prefix")
+                .message(BarcodeCreationValidator.INVALID_BARCODE_PREFIX_ERROR_MESSAGE);
+
+        String responseJson = BarcodesApiControllerTestData.buildErrorResponseJson(
+                expectedError);
+
+        
+        mockMvc.perform(post("/barcodes/")
+                .contentType(contentType)
+                .content(objectMapper.writeValueAsBytes(bc))
+                )
+        .andExpect(status().isBadRequest())
+        .andExpect(content().contentType(contentType))
+        .andDo(print())
+        .andExpect(content().json(responseJson));
+    }
+
+    @Test
+    public void createBarcodeWithNotValidLongInfo() throws Exception {
+        final String info = "abcdefghij";
+        final String prefix = "SCGC";
+        Barcode bc = BarcodesApiControllerTestData.buildBarcode(null, prefix, info, null);
+        Error expectedError = new Error()
+                .code(HttpStatus.BAD_REQUEST.value())
+                .fields("info")
+                .message(BarcodeCreationValidator.INVALID_BARCODE_INFO_ERROR_MESSAGE);
+
+        String responseJson = BarcodesApiControllerTestData.buildErrorResponseJson(
+                expectedError);
+
+        
+        mockMvc.perform(post("/barcodes/")
+                .contentType(contentType)
+                .content(objectMapper.writeValueAsBytes(bc))
+                )
+        .andExpect(status().isBadRequest())
+        .andExpect(content().contentType(contentType))
+        .andDo(print())
+        .andExpect(content().json(responseJson));
+    }
+
+    @Test
+    public void createBarcodeWithNotAlphanumericInfo() throws Exception {
+        final String info = "?£%";
+        final String prefix = "SCGC";
+        Barcode bc = BarcodesApiControllerTestData.buildBarcode(null, prefix, info, null);
+        Error expectedError = new Error()
+                .code(HttpStatus.BAD_REQUEST.value())
+                .fields("info")
+                .message(BarcodeCreationValidator.INVALID_BARCODE_INFO_ERROR_MESSAGE);
+
+        String responseJson = BarcodesApiControllerTestData.buildErrorResponseJson(
+                expectedError);
+
+        mockMvc.perform(post("/barcodes/")
+                .contentType(contentType)
+                .content(objectMapper.writeValueAsBytes(bc))
+                )
+        .andExpect(status().isBadRequest())
+        .andExpect(content().contentType(contentType))
+        .andDo(print())
+        .andExpect(content().json(responseJson));
+    }
+
     @Test
     public void createBarcodeWithExistingPrefix () throws Exception {
         final String prefix = "SCGC";

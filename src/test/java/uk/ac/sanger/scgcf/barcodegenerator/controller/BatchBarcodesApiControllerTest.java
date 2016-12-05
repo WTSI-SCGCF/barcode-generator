@@ -22,6 +22,7 @@ import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -31,6 +32,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import uk.ac.sanger.scgcf.barcodegenerator.persistence.dao.BarcodeRepository;
 import uk.ac.sanger.scgcf.barcodegenerator.persistence.model.Barcode;
 import uk.ac.sanger.scgcf.barcodegenerator.persistence.model.BarcodesPayload;
+import uk.ac.sanger.scgcf.barcodegenerator.persistence.model.Error;
+import uk.ac.sanger.scgcf.barcodegenerator.validators.BarcodeCreationValidator;
 
 /**
  * @author ke4
@@ -56,7 +59,63 @@ public class BatchBarcodesApiControllerTest {
     private List<Barcode> barcodesByPrefix = new ArrayList<>();
 
     @Test
-    public void createBarcodeWhenPrefixNotExist() throws Exception {
+    public void createBarcodesWithInvalidPrefix() throws Exception {
+        int numberOfBarcodes = 4;
+        String prefix = "SCGCDEF";
+        String info = "ABC";
+        Error expectedError = new Error()
+                .code(HttpStatus.BAD_REQUEST.value())
+                .fields("prefix")
+                .message(BarcodeCreationValidator.INVALID_BARCODE_PREFIX_ERROR_MESSAGE);
+
+        BarcodesPayload barcodesPayload = new BarcodesPayload();
+        barcodesPayload.setPrefix(prefix);
+        barcodesPayload.setInfo(info);
+        barcodesPayload.setNumberOfBarcodes(numberOfBarcodes);
+
+        String responseJson = BarcodesApiControllerTestData.buildErrorResponseJson(
+                expectedError);
+
+        mockMvc.perform(post("/batch_barcodes/")
+                .contentType(contentType)
+                .content(objectMapper.writeValueAsBytes(barcodesPayload))
+                )
+        .andExpect(status().isBadRequest())
+        .andExpect(content().contentType(contentType))
+        .andDo(print())
+        .andExpect(content().json(responseJson));
+    }
+
+    @Test
+    public void createBarcodesWithInvalidInfo() throws Exception {
+        int numberOfBarcodes = 4;
+        String prefix = "ABCD";
+        String info = "@£$";
+        Error expectedError = new Error()
+                .code(HttpStatus.BAD_REQUEST.value())
+                .fields("info")
+                .message(BarcodeCreationValidator.INVALID_BARCODE_INFO_ERROR_MESSAGE);
+
+        BarcodesPayload barcodesPayload = new BarcodesPayload();
+        barcodesPayload.setPrefix(prefix);
+        barcodesPayload.setInfo(info);
+        barcodesPayload.setNumberOfBarcodes(numberOfBarcodes);
+
+        String responseJson = BarcodesApiControllerTestData.buildErrorResponseJson(
+                expectedError);
+
+        mockMvc.perform(post("/batch_barcodes/")
+                .contentType(contentType)
+                .content(objectMapper.writeValueAsBytes(barcodesPayload))
+                )
+        .andExpect(status().isBadRequest())
+        .andExpect(content().contentType(contentType))
+        .andDo(print())
+        .andExpect(content().json(responseJson));
+    }
+
+    @Test
+    public void batchCreateBarcodeWhenPrefixNotExist() throws Exception {
         int numberOfBarcodes = 4;
         String prefix = "SCGC";
         String info = "ABC";
@@ -104,7 +163,7 @@ public class BatchBarcodesApiControllerTest {
     }
 
     @Test
-    public void createBarcodeWhenPrefixExist() throws Exception {
+    public void batchCreateBarcodesWhenPrefixExist() throws Exception {
         int numberOfBarcodes = 4;
         String prefix = "SCGC";
         String info = "ABC";

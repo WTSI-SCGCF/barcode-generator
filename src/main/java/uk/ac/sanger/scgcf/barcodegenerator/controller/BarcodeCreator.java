@@ -27,7 +27,6 @@ public class BarcodeCreator {
         }
         latestBarcode.setFullBarcode();
 
-//        barcodeRepository.flush();
         latestBarcode = barcodeRepository.save(latestBarcode);
 
         return latestBarcode;

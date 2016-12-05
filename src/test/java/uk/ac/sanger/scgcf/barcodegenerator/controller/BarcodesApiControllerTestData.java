@@ -6,6 +6,7 @@ package uk.ac.sanger.scgcf.barcodegenerator.controller;
 import java.util.List;
 
 import uk.ac.sanger.scgcf.barcodegenerator.persistence.model.Barcode;
+import uk.ac.sanger.scgcf.barcodegenerator.persistence.model.Error;
 
 /**
  * @author ke4
@@ -56,6 +57,20 @@ public class BarcodesApiControllerTestData {
         if (barcodes.size() > 1) {
             builder.append("]");
         }
+
+        return builder.toString();
+    }
+
+    public static String buildErrorResponseJson(Error error) {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("{\"code\":");
+        builder.append(error.getCode());
+        builder.append(",\"message\":\"");
+        builder.append(error.getMessage());
+        builder.append("\",\"fields\":\"");
+        builder.append(error.getFields());
+        builder.append("\"},");
 
         return builder.toString();
     }

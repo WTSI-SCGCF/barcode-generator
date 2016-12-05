@@ -29,8 +29,8 @@ public class SwaggerDocumentationConfig {
         return new ApiInfoBuilder().title("BarcodeGenerator Service")
                 .description(
                         "Usage: To read the already generated barcode types: "
-                        + "send a **GET** request against the `/barcodes` endpoint.  "
-                        + "To create a single barcode: send a **POST** request against the `/barcodes` endpoint.  "
+                        + "send a **GET** request against the `/barcodes` endpoint.<br />"
+                        + "To create a single barcode: send a **POST** request against the `/barcodes` endpoint.<br />"
                         + "To create a batch of barcodes: send a **POST** request against the `/batch_barcodes` endpoint."
                         )
                 .license("Apache 2.0").licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")

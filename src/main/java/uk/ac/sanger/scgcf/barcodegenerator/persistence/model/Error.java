@@ -11,6 +11,11 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @javax.annotation.Generated(value = "class uk.ac.sanger.scgcf.barcodegenerator.codegen.languages.SpringCodegen", date = "2016-11-25T08:23:20.639Z")
 
+/**
+ * Define the <code>Error</code> response class.
+ * @author ke4
+ *
+ */
 public class Error {
     @JsonProperty("code")
     private Integer code = null;

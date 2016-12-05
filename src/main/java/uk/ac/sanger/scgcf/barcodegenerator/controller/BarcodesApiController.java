@@ -4,7 +4,6 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +29,9 @@ public class BarcodesApiController implements BarcodesApi {
         this.barcodeRepository = barcodeRepository;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public ResponseEntity<Barcode> createSingleBarcode(
             @ApiParam(value = "Input parameters of the Barcode object that needs to be created", required = true) @RequestBody SingleBarcodePayload barcode) throws InvalidBarcodeParameterException {
         final String prefix = barcode.getPrefix().toUpperCase();
@@ -46,6 +48,9 @@ public class BarcodesApiController implements BarcodesApi {
         return ResponseEntity.created(location).body(latestBarcode);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public ResponseEntity<List<Barcode>> getBarcodesInfo(
             @ApiParam(value = "Size of barcode array") @RequestParam(value = "size", required = false) Integer size) {
         List<Barcode> barcodes = this.barcodeRepository.findAll();

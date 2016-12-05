@@ -27,7 +27,10 @@ public class BatchBarcodesApiController implements BatchBarcodesApi {
     public BatchBarcodesApiController(BarcodeRepository barcodeRepository) {
         this.barcodeRepository = barcodeRepository;
     }
-    
+
+    /**
+     * {@inheritDoc}
+     */
     public ResponseEntity<BatchBarcodes> batchCreateListOfBarcodes(
             @ApiParam(value = "Input parameters of the Barcode object(s) that needs to be created",
                         required = true)
@@ -56,5 +59,4 @@ public class BatchBarcodesApiController implements BatchBarcodesApi {
                 .buildAndExpand(prefix).toUri();
         return ResponseEntity.created(location).body(barcodes);
     }
-    
 }

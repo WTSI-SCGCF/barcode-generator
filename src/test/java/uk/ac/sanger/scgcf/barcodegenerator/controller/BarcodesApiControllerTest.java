@@ -31,6 +31,8 @@ import uk.ac.sanger.scgcf.barcodegenerator.persistence.model.Error;
 import uk.ac.sanger.scgcf.barcodegenerator.validators.BarcodeCreationValidator;
 
 /**
+ * Tests for <code>BarcodesApiController</code>.
+ * 
  * @author ke4
  *
  */

@@ -19,9 +19,24 @@ import uk.ac.sanger.scgcf.barcodegenerator.persistence.model.Error;
 
 @javax.annotation.Generated(value = "class uk.ac.sanger.scgcf.barcodegenerator.codegen.languages.SpringCodegen", date = "2016-11-25T08:23:20.639Z")
 
+/**
+ * API defining the bulk barcode operations.
+ * 
+ * @author ke4
+ *
+ */
 @Api(value = "batch_barcodes", description = "the batch_barcodes API")
 public interface BatchBarcodesApi {
 
+    /**
+     * Creates a given number of barcodes with the given input parameters (prefix, info).
+     * 
+     * @param body body contains the payload for barcode creation
+     * @return a list of <code>ResponseEntity</code> with the created barcode and the status code
+     * or error message and its status code
+     * @throws InvalidBarcodeParameterException when the validation failed
+     * related the parameters of the barcode
+     */
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(code = 201, value = "Creates a batch of barcodes with the given input parameters", notes = "Batch barcode creation", response = BatchBarcodes.class, tags = {
             "batch_barcode", })

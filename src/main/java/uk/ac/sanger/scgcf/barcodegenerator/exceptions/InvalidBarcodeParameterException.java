@@ -4,6 +4,8 @@
 package uk.ac.sanger.scgcf.barcodegenerator.exceptions;
 
 /**
+ * Exception class for throw when barcode parameter is invalid.
+ * 
  * @author ke4
  *
  */

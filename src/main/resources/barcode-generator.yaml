@@ -1,0 +1,154 @@
+swagger: '2.0'
+info:
+  version: "0.0.1"
+  title: BarcodeGenerator Service
+  contact:
+    name: ke4@sanger.ac.uk, as28@sanger.ac.uk
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+host: scgcf-barcodegenerator.sanger.ac.uk
+schemes:
+  - http
+paths:
+  /barcodes:
+    get:
+      tags:
+        - barcode
+      summary: Gets all barcode type's latest information
+      description: |
+        Gets `Barcode` objects.
+        Optional query param of **size** determines
+        size of returned array
+      operationId: getBarcodesInfo
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: size
+          description: Size of barcode array
+          required: false
+          type: integer
+          format: int32
+      # Expected responses for this operation:
+      responses:
+        # Response code
+        "200":
+          description: Successful response
+          # A schema describing your response object.
+          # Use JSON Schema format
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Barcode"
+    post:
+      tags:
+        - barcode
+      summary: Creates a barcode 
+      description: "Creates a single barcode with the given input parameters (prefix, info)"
+      operationId: createSingleBarcode
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Input parameters of the Barcode object that needs to be created
+          required: true
+          schema:
+            $ref: "#/definitions/SingleBarcodePayload"
+      responses:
+        "201":
+          description: Barcode has been created
+          schema:
+            $ref: "#/definitions/Barcode"
+        "400":
+          description: Invalid parameter(s) supplied
+          schema:
+            $ref: "#/definitions/Error"
+            
+  /batch_barcodes:
+    post:
+      tags:
+        - batch_barcode
+      summary: Creates a batch of barcodes with the given input parameters
+      description: "Batch barcode creation"
+      operationId: bartchCreateListOfBarcodes
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Input parameters of the Barcode object(s) that needs to be created
+          required: true
+          schema:
+            $ref: "#/definitions/BarcodesPayload"
+      responses:
+        "201":
+          description: List of barcodes has been created
+          schema:
+            $ref: "#/definitions/BatchBarcodes"
+        "400":
+          description: Invalid parameter(s) supplied
+          schema:
+            $ref: "#/definitions/Error"
+definitions:
+  SingleBarcodePayload:
+    type: object
+    required:
+      - prefix
+      - info
+    properties:
+      prefix:
+        type: string
+      info:
+        type: string
+  BarcodesPayload:
+    type: object
+    required:
+      - numberOfBarcodes
+      - prefix
+      - info
+    properties:
+      numberOfBarcodes:
+        type: integer
+        format: int32
+      prefix:
+        type: string
+      info:
+        type: string
+  Barcode:
+    type: object
+    required:
+      - prefix
+      - info
+    properties:
+      id:
+        type: integer
+        format: int64
+      prefix:
+        type: string
+      info:
+        type: string
+      number:
+        type: integer
+        format: int64
+      fullBarcode:
+        type: string
+  BatchBarcodes:
+    type: array
+    items:
+      $ref: '#/definitions/Barcode'
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string

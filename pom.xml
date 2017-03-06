@@ -5,7 +5,7 @@
   <artifactId>barcode-generator</artifactId>
   <packaging>jar</packaging>
   <name>barcode-generator</name>
-  <version>0.0.1-alpha</version>
+  <version>0.0.2</version>
   <properties>
     <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -24,16 +24,21 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
-            <executable>true</executable>
-            <embeddedLaunchScriptProperties>
-                <logFolder>opt/atlassian/services/barcode-generator/log</logFolder>
-                <pidFolder>opt/atlassian/services/barcode-generator/log</pidFolder>
-            </embeddedLaunchScriptProperties>
+          <executable>true</executable>
+          <embeddedLaunchScriptProperties>
+            <logFolder>opt/services/barcode-generator/log</logFolder>
+            <pidFolder>opt/services/barcode-generator/log</pidFolder>
+          </embeddedLaunchScriptProperties>
         </configuration>
         <executions>
           <execution>
             <goals>
               <goal>repackage</goal>
+            </goals>
+          </execution>
+          <execution>
+            <goals>
+              <goal>build-info</goal>
             </goals>
           </execution>
         </executions>
